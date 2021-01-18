@@ -1,0 +1,98 @@
+﻿@model PeliPeli.Models.Pelicula
+
+@{
+    ViewBag.Title = "index";
+}
+
+<h2>Detalle</h2>
+
+<div>
+    <h4>Pelicula</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duracion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaEstreno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaEstreno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Argumento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Argumento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Actores)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Actores)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Director)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Director)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Categoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Categoria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Funciones)
+        </dt>
+
+    </dl>
+    <div>
+        @if (Request.UrlReferrer.LocalPath == "/")
+        {
+            using (Html.BeginForm("Asientos", "Reserva", FormMethod.Get))
+            {
+                <input type="hidden" value="@Model.IdPelicula" name="IdPelicula" />
+                @Html.DropDownListFor(model => model.Funciones, new SelectList(Model.Funciones, "IdFuncion", "FechaHora", Model.Funciones.First().IdFuncion), "-- Seleccioná una función --", new { Name = "IdFuncion" });
+                <input type="submit" value="Continuar" />
+            }
+        }
+        else
+        {
+            <ul>
+                @foreach (var item in Model.Funciones)
+                {
+                    <li>@item.FechaHora</li>
+                }
+            </ul>
+        }
+
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Ir para atrás", "Index", "Home")
+</p>

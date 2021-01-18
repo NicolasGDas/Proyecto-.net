@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "Asientos";
+}
+@section Styles {
+    <link href="@Url.Content("~/Content/asientos.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/js/asientos.min.js")"></script>
+}
+<div class="content">
+    <div class="main">
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Error
+            </div>
+        }
+
+        <h2>Seleccion&aacute; los asientos a reservar</h2>
+        <div class="demo">
+            <div id="seat-map">
+                <div class="front">PANTALLA</div>
+            </div>
+            <div class="booking-details">
+                <ul class="book-left">
+                    <li>Pelicula </li>
+                    <li>Horario </li>
+                    <li>Entradas</li>
+                    <li>Total</li>
+                    <li>Asientos :</li>
+                </ul>
+                <ul class="book-right">
+                    <li>: @Model.TituloPelicula</li>
+                    <li>: @Model.FechaHora</li>
+                    <li>: <span id="counter">0</span></li>
+                    <li>: <b><i>$</i><span id="total">0</span></b></li>
+                </ul>
+                <div class="clear"></div>
+
+                <form id="seleccionEntradas" action="Asientos" method="post">
+                    <ul id="selected-seats" class="scrollbar scrollbar1"></ul>
+                    <input type="hidden" name="IdFuncion" value="@Model.IdFuncion" />
+                    <input type="hidden" name="IdPelicula" value="@Model.IdPelicula" />
+                    <input type="hidden" name="FechaHora" value="@Model.FechaHora" />
+                    <input type="hidden" id=totalPagar name="Total" />
+                    <button type="submit" id="btnReservar" class="checkout-button" disabled>Reservar</button>
+                </form>
+
+                <div id="legend"></div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+
+        <script type="text/javascript">
+            var price = 450; //price
+            $(document).ready(function () {
+                var $cart = $('#selected-seats'), //Sitting Area
+                    $counter = $('#counter'), //Votes
+                    $total = $('#total'); //Total money
+
+                var sc = $('#seat-map').seatCharts({
+                    map: [  //Seating chart
+                        'aaaaaaaaaa',
+                        'aaaaaaaaaa',
+                        '__________',
+                        'aaaaaaaa__',
+                        'aaaaaaaaaa',
+                        'aaaaaaaaaa',
+                        'aaaaaaaaaa',
+                        'aaaaaaaaaa',
+                        'aaaaaaaaaa',
+                        '__aaaaaa__'
+                    ],
+                    naming: {
+                        top: false,
+                        getLabel: function (character, row, column) {
+                            return column;
+                        }
+                    },
+                    legend: { //Definition legend
+                        node: $('#legend'),
+                        items: [
+                            ['a', 'available', 'Disponible'],
+                            ['a', 'unavailable', 'No disponible'],
+                            ['a', 'selected', 'Seleccionado']
+                        ]
+                    },
+                    click: function () { //Click event
+                        console.log(this.settings);
+                        if (this.status() == 'available') { //optional seat
+                            $('<li>' + this.settings.id + '</li>')
+                                .addClass('asiento-item')
+                                .attr('id', 'cart-item-' + this.settings.id)
+                                .data('seatId', this.settings.id)
+                                .appendTo($cart);
+
+                            $('<input>')
+                                .attr('id', 'reservado-'+this.settings.id)
+                                .attr('type', 'hidden')
+                                .val(this.settings.id)
+                                .attr('name', 'Asientos')
+                                .appendTo('#seleccionEntradas');
+
+                            $counter.text(sc.find('selected').length + 1);
+                            $total.text(recalculateTotal(sc) + price);
+                            $('#totalPagar').val(recalculateTotal(sc) + price);
+                            puedeRervar();
+                            return 'selected';
+                        } else if (this.status() == 'selected') { //Checked
+                            //Update Number
+                            $counter.text(sc.find('selected').length - 1);
+                            //update totalnum
+                            $total.text(recalculateTotal(sc) - price);
+                            $('#totalPagar').val(recalculateTotal(sc) - price);
+
+                            //Delete reservation
+                            $('#cart-item-' + this.settings.id).remove();
+
+                            $('#reservado-' + this.settings.id).remove();
+                            puedeRervar();
+                            //optional
+                            return 'available';
+                        } else if (this.status() == 'unavailable') { //sold
+                            return 'unavailable';
+                        } else {
+                            return this.style();
+                        }
+
+                    }
+                });
+
+                var AsientosNoDisponibles=[];
+               @foreach (var a in Model.AsientosNoDisponibles)
+               {
+                    @:AsientosNoDisponibles.push('@a.Fila' + '-' + '@a.Columna');
+               }
+                sc.get(AsientosNoDisponibles).status('unavailable');
+                });
+        //sum total money
+        function recalculateTotal(sc) {
+            var total = 0;
+            sc.find('selected').each(function () {
+                total += price;
+            });
+
+            return total;
+            }
+
+            function puedeRervar() {
+                if ($("#selected-seats").has("li").length) {
+                    //Hay asientos
+                    $('#btnReservar').prop('disabled', false);
+                } else {
+                    $('#btnReservar').prop('disabled', true);
+                }
+            }
+
+           
+        </script>
+    </div>
+    <p class="copy_rights">&copy; 2020 - Programación en Nuevas Tecnologías</p>
+</div>
+<script src="@Url.Content("~/Content/js/nicescroll.js")"></script>
+<script src="@Url.Content("~/Content/js/scripts.js")"></script>

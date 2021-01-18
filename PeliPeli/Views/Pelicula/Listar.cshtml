@@ -1,0 +1,89 @@
+﻿@model IEnumerable<PeliPeli.Models.Pelicula>
+
+@{
+    ViewBag.Title = "Listado de Peliculas";
+}
+
+<h2>Listado de Peliculas</h2>
+
+<p>
+    @Html.ActionLink("Nueva Pelicula", "Nueva")
+</p>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Error"]
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genero)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Duracion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaEstreno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Argumento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Actores)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Director)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Categoria)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Imagen)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genero.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duracion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaEstreno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Argumento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Actores)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Director)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria)
+            </td>
+            <td>
+                <img src="~/Content/img/@Html.DisplayFor(modelItem => item.Imagen)" width="100px" />
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = item.IdPelicula })
+                @Html.ActionLink("Detalle", "Detalle", new { id = item.IdPelicula })
+                @Html.ActionLink("Eliminar", "Eliminar", new { id = item.IdPelicula })
+            </td>
+        </tr>
+    }
+
+</table>

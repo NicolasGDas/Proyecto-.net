@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PeliPeli.Models.ReservaViewModel>
+
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Listar</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Reserva.IdReserva)
+        </th>
+        <th>Pelicula</th>
+        <th>Funci&oacute;n</th>
+        <th>Asientos</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reserva.Total)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reserva.IdReserva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TituloPelicula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaHora)
+            </td>
+            <td>
+                <ul>
+                    @foreach (var a in item.Reserva.Asientos)
+                    {
+                        <li>@a.Fila-@a.Columna </li>
+                    }
+                </ul>
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.Reserva.Total)
+            </td>
+            <td>
+                @Html.ActionLink("Eliminar", "Eliminar", new { id = item.Reserva.IdReserva })
+            </td>
+        </tr>
+    }
+
+</table>

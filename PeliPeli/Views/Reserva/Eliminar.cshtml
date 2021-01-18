@@ -1,0 +1,59 @@
+﻿@model PeliPeli.Models.ReservaViewModel
+
+@{
+    ViewBag.Title = "Eliminar Reserva";
+}
+
+<h2>Eliminar</h2>
+
+<h3>¿Est&aacute; seguro que desea eliminar esta reserva?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Reserva.IdReserva)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reserva.IdReserva)
+        </dd>
+
+        <dt>Pelicula</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TituloPelicula)
+        </dd>
+
+        <dt>Funcion</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaHora)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reserva.Asientos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reserva.Asientos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reserva.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reserva.Total)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Eliminar", "Reserva"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver al listado", "Listar")
+        </div>
+    }
+</div>

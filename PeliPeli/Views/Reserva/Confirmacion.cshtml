@@ -1,0 +1,69 @@
+﻿@model PeliPeli.Models.ReservaViewModel
+@{
+    ViewBag.Title = "Confirmacion";
+}
+
+<h2>Confirmaci&oacute;n</h2>
+<p>Revis&aacute; que todos los datos sean correctos</p>
+<h3 id="timer" style="float:right;">00:15</h3>
+<img src="~/Content/img/@Model.Imagen" alt="@Model.TituloPelicula" />
+<dl class="dl-horizontal">
+
+    <dt>N&Uacute;mero de reserva</dt>
+    <dd>
+        @Html.DisplayFor(model => model.Reserva.IdReserva)
+    </dd>
+    <dt>Pelicula</dt>
+    <dd>
+        @Html.DisplayFor(model => model.TituloPelicula)
+    </dd>
+    <dt>Horario</dt>
+    @*<dd>
+        @Html.DisplayFor(model => model.Funcion.FechaHora)
+    </dd>*@
+    <dt>Asientos</dt>
+    <ul>
+        @foreach (var item in @Model.Reserva.Asientos)
+        {
+            <li>@item.Fila-@item.Columna </li>
+        }
+    </ul>
+    <dt>Total a pagar</dt>
+    <dd>$@Html.DisplayFor(model => model.Reserva.Total)</dd>
+</dl>
+<button type="button" onclick="confirmarReserva()">CONFIRMAR RESERVA</button>
+<script>
+    let yaLlamo = false;
+    let interval;
+    function iniciarTimer(duracion, display) {
+        var timer = duracion, minutos, segundos;
+        interval=setInterval(function () {
+            minutos = parseInt(timer / 60, 10);
+            segundos = parseInt(timer % 60, 10);
+
+            minutos = minutos < 10 ? "0" + minutos : minutos;
+            segundos = segundos < 10 ? "0" + segundos : segundos;
+
+            display.textContent = minutos + ":" + segundos;
+
+            if (--timer < 0 && !yaLlamo) {
+                clearInterval(interval)
+                yaLlamo = true;
+                alert("La sesión ha vencido. Su reserva ha sido cancelada");
+                window.location.href = '@Url.Action("Index", "Home", new { IdReserva = Model.Reserva.IdReserva })';
+            }
+        }, 1000);
+    }
+
+    window.onload = function () {
+        var dosMinutos = 60 * 0.25,
+            display = document.querySelector('#timer');
+        iniciarTimer(dosMinutos, display);
+    };
+
+    function confirmarReserva() {
+        clearInterval(interval);
+        alert("Gracias! Tu reserva ha sido confirmada!");
+        window.location.href = '@Url.Action("Index", "Home")';
+    }
+</script>

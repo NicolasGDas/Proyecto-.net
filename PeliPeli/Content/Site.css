@@ -1,0 +1,35 @@
+﻿.estrenos {
+    display: flex;
+    flex-flow: row wrap;
+    margin-top: 50px;
+}
+
+.estrenos-item {
+    position: relative;
+    display: block;
+    /*flex: 1 1 0px;*/
+    padding:10px;
+    transition: transform 500ms;
+}
+
+.estrenos:focus-within .estrenos-item,
+.estrenos:hover .estrenos-item {
+    transform: translateX(-25%);
+}
+
+.estrenos-item:focus ~ .estrenos-item,
+.estrenos-item:hover ~ .estrenos-item {
+    transform: translateX(25%);
+}
+
+.estrenos .estrenos-item:focus,
+.estrenos .estrenos-item:hover {
+    transform: scale(1.3);
+    z-index: 1;
+}
+
+
+.estrenos-item img {
+    display: block;
+    max-width: 100%;
+}

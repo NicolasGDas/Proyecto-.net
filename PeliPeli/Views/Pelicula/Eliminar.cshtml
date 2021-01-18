@@ -1,0 +1,104 @@
+﻿@model PeliPeli.Models.Pelicula
+
+@{
+    ViewBag.Title = "Eliminar Pelicula";
+}
+
+<h2>Eliminar</h2>
+
+<h3>¿Est&aacute; seguro que desea eliminar esta pelicula?</h3>
+<div>
+    <h4>Pelicula</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genero.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duracion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaEstreno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaEstreno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Argumento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Argumento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Actores)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Actores)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Director)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Director)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Categoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Categoria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Trailer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Trailer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Imagen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Imagen)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Eliminar", "Pelicula")) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver al listado", "Listar")
+        </div>
+    }
+</div>
